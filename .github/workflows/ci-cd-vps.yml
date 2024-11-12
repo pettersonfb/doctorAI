@@ -16,8 +16,11 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'  # ou outra versão que você usa
+        node-version: '22.11.0'  # ou outra versão que você usa
 
+    - name: Clean Cache
+      run: npm cache clean --force
+      
     - name: Install dependencies
       run: npm install
 
@@ -29,8 +32,8 @@ jobs:
 
     - name: Deploy to VPS
       env:
-        HOST: "vps_ip"  # substitua pelo IP da sua VPS
-        USER: "username" # substitua pelo seu usuário SSH na VPS
+        HOST: ${{ secrets.HOST }}
+        USER: ${{ secrets.USERNAME }} "username"
       run: |
         # Adicionar chave privada ao SSH agent
         mkdir -p ~/.ssh
