@@ -28,7 +28,7 @@ jobs:
       run: npm install typescript --force
       
     - name: Install dependencies
-      run: npm install
+      run: npm install --force
 
     - name: Run tests
       run: npm test
