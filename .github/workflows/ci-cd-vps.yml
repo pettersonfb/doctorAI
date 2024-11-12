@@ -36,7 +36,7 @@ jobs:
     - name: Deploy to VPS
       env:
         HOST: ${{ secrets.HOST }}
-        USER: ${{ secrets.USERNAME }} "username"
+        USER: ${{ secrets.USERNAME }}
       run: |
         # Adicionar chave privada ao SSH agent
         mkdir -p ~/.ssh
