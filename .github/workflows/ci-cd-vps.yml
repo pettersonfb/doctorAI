@@ -41,5 +41,5 @@ jobs:
         # Transferir arquivos para a VPS
         rsync -avz -e "ssh -i ~/.ssh/id_rsa" ./build/ $USER@$HOST:/var/www/html/
 
-        # Reiniciar o servidor Nginx (ou outro servidor)
-        ssh -i ~/.ssh/id_rsa $USER@$HOST 'sudo systemctl restart nginx'
+        # Reiniciar o servidor Apache
+        ssh -i ~/.ssh/id_rsa $USER@$HOST 'sudo systemctl restart apache2'
