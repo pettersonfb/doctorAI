@@ -40,12 +40,12 @@ jobs:
       run: |
         # Adicionar chave privada ao SSH agent
         mkdir -p ~/.ssh
-        echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_rsa.pub
-        chmod 600 ~/.ssh/id_rsa.pub
+        echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H $HOST >> ~/.ssh/known_hosts
         
         # Transferir arquivos para a VPS
-        rsync -avz -e "ssh -i ~/.ssh/id_rsa.pub" ./build/ $USER@$HOST:/var/www/html/
+        rsync -avz -e "ssh -i ~/.ssh/id_rsa" ./build/ $USER@$HOST:/var/www/html/
 
         # Reiniciar o servidor Apache
         ssh -i ~/.ssh/id_rsa $USER@$HOST 'sudo systemctl restart apache2'
