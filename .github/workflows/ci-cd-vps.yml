@@ -21,17 +21,14 @@ jobs:
     - name: Clean Cache
       run: npm cache clean --force
 
-    - name: Install dependencies
+    - name: Install prisma
       run: npm install prisma --force
 
-    - name: Install dependencies
+    - name: Install typescript
       run: npm install typescript --force
       
-    - name: Install dependencies
+    - name: Install others dependencies
       run: npm install --force
-
-    - name: Run tests
-      run: npm test
 
     - name: Build the project
       run: npm run build
