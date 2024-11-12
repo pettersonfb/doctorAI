@@ -22,10 +22,10 @@ jobs:
       run: npm cache clean --force
 
     - name: Install dependencies
-      run: npm install prisma
+      run: npm install prisma --force
 
     - name: Install dependencies
-      run: npm install typescript
+      run: npm install typescript --force
       
     - name: Install dependencies
       run: npm install
