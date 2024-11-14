@@ -33,6 +33,13 @@ jobs:
     - name: Build the project
       run: npm run build
 
+    # Convertendo a chave SSH para um formato compatível
+    - name: Prepare SSH Key
+      run: |
+        echo "${{ secrets.HOSTINGER_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+    # Configurando o ssh-agent para usar a chave privada convertida
     - name: Add SSH key
       uses: webfactory/ssh-agent@v0.5.3
       with:
