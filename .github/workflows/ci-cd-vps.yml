@@ -36,6 +36,7 @@ jobs:
     # Convertendo a chave SSH para um formato compatível
     - name: Prepare SSH Key
       run: |
+        mkdir -p ~/.ssh  # Cria o diretório .ssh se ele não existir
         echo "${{ secrets.HOSTINGER_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa_no_pass
         chmod 600 ~/.ssh/id_rsa_no_pass
 
