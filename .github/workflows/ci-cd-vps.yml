@@ -33,23 +33,23 @@ jobs:
     - name: Build the project
       run: npm run build
 
-    # Convertendo a chave SSH para um formato compatível
+    # Configurar a chave SSH no agente para permitir o acesso ao servidor
     - name: Prepare SSH Key
       run: |
-        mkdir -p ~/.ssh  # Cria o diretório .ssh se ele não existir
-        echo "${{ secrets.VPS_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa_hostinger
+        mkdir -p ~/.ssh
+        echo "${{ secrets.HOSTINGER_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa_hostinger
         chmod 600 ~/.ssh/id_rsa_hostinger
 
-    # Configurando o ssh-agent para usar a chave privada convertida
     - name: Add SSH key
       uses: webfactory/ssh-agent@v0.5.3
       with:
-        ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+        ssh-private-key: ~/.ssh/id_rsa_hostinger
 
+    # Fazer o deploy dos arquivos para o servidor Hostinger
     - name: Deploy to Hostinger
       env:
-        HOST: ${{ secrets.HOST }}
-        USER: ${{ secrets.USERNAME }}
+        HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
+        HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
         DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
       run: |
-        rsync -avz --delete --exclude 'node_modules' --exclude '.git' ./build/ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:${{ secrets.DEPLOY_PATH }}
+        rsync -avz --delete --exclude 'node_modules' --exclude '.git' ./build/ ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:${{ secrets.DEPLOY_PATH }}
