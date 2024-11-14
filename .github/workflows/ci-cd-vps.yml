@@ -3,7 +3,7 @@ name: CI/CD Deploy to VPS
 on:
   push:
     branches:
-      - main  # roda o deploy no push para a branch main
+      - main  # Roda o deploy no push para a branch "main"
 
 jobs:
   build:
@@ -16,34 +16,22 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '22.11.0'  # ou outra versão que você usa
+        node-version: '22.11.0'  # Use a versão que o seu projeto precisa
 
     - name: Clean Cache
       run: npm cache clean --force
 
-    - name: Install prisma
-      run: npm install prisma --force
-
-    - name: Install typescript
-      run: npm install typescript --force
-      
-    - name: Install others dependencies
+    - name: Install dependencies
       run: npm install --force
 
     - name: Build the project
       run: npm run build
 
-    # Configurar a chave SSH no agente para permitir o acesso ao servidor
-    - name: Prepare SSH Key
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.HOSTINGER_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa_hostinger
-        chmod 600 ~/.ssh/id_rsa_hostinger
-
+    # Configurar a chave SSH para o deploy
     - name: Add SSH key
       uses: webfactory/ssh-agent@v0.5.3
       with:
-        ssh-private-key: ~/.ssh/id_rsa_hostinger
+        ssh-private-key: ${{ secrets.HOSTINGER_SSH_KEY }}
 
     # Fazer o deploy dos arquivos para o servidor Hostinger
     - name: Deploy to Hostinger
