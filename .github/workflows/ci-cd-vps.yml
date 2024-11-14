@@ -33,6 +33,12 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.HOSTINGER_SSH_KEY }}
 
+    # Adicionar a chave pública do servidor Hostinger ao arquivo known_hosts
+    - name: Add Hostinger SSH key to known_hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H ${{ secrets.HOSTINGER_HOST }} >> ~/.ssh/known_hosts
+
     # Fazer o deploy dos arquivos para o servidor Hostinger
     - name: Deploy to Hostinger
       env:
