@@ -1,5 +1,8 @@
 # Doctor Appointment - Full Stack Appointment Website
 
+## 👨‍💻 Actively Seeking Better Opportunities
+#### 🌟 Open to vacancies, jobs, or contract roles 🚀
+
 ### Installation video
 [![YouTube](https://img.shields.io/badge/Watch_on-YouTube-red?logo=youtube)](https://youtu.be/L6cgb7I-Ap4)&nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -147,5 +150,3 @@ Thank you for considering this project. If you have any questions, please do not
 
 ## Contact Me
 Portfolio: [https://ujjalzaman.netlify.app/](https://ujjalzaman.netlify.app/)
-# doctor-on-call
-# doctor-on-call
