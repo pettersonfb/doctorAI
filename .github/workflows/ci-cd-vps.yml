@@ -1,0 +1,49 @@
+name: CI/CD Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main  # Roda o deploy no push para a branch "main"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '22.11.0'  # Use a versão que o seu projeto precisa
+
+    - name: Clean Cache
+      run: npm cache clean --force
+
+    - name: Install dependencies
+      run: npm install --force
+
+    - name: Build the project
+      run: npm run build
+
+    # Configurar a chave SSH para o deploy
+    - name: Add SSH key
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.HOSTINGER_SSH_KEY }}
+
+    # Adicionar a chave pública do servidor Hostinger ao arquivo known_hosts
+    - name: Add Hostinger SSH key to known_hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H ${{ secrets.HOSTINGER_HOST }} >> ~/.ssh/known_hosts
+
+    # Fazer o deploy dos arquivos para o servidor Hostinger
+    - name: Deploy to Hostinger
+      env:
+        HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
+        HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
+        DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+      run: |
+        rsync -avz --delete --exclude 'node_modules' --exclude '.git' ./build/ ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:${{ secrets.DEPLOY_PATH }}
