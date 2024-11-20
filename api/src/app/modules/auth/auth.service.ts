@@ -35,8 +35,8 @@ const loginUser = async (user: any): Promise<ILginResponse> => {
             throw new ApiError(httpStatus.NOT_FOUND, "Please Verify Your Email First !");
         }
     }
-    const isPasswordMatched = await bcrypt.compare(password, isUserExist.password);
 
+    const isPasswordMatched = await bcrypt.compare(password, isUserExist.password);
     if (!isPasswordMatched) {
         throw new ApiError(httpStatus.NOT_FOUND, "Password is not Matched !");
     }
@@ -60,6 +60,7 @@ const VerificationUser = async (user: any): Promise<ILginResponse> => {
     }
     const isPasswordMatched = await bcrypt.compare(password, isUserExist.password);
 
+    console.log(password + ' - ' + isUserExist.password);
     if (!isPasswordMatched) {
         throw new ApiError(httpStatus.NOT_FOUND, "Password is not Matched !");
     }
